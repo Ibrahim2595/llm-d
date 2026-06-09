@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "optimized-baseline-xpu",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "XPU",
+  "message": "infra-error",
+  "color": "orange"
 }
