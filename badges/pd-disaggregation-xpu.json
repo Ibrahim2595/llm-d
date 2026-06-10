@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "pd-disaggregation-xpu",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "XPU",
+  "message": "passing",
+  "color": "brightgreen"
 }
