@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "precise-prefix-cache-ocp",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "OCP",
+  "message": "passing",
+  "color": "brightgreen"
 }
