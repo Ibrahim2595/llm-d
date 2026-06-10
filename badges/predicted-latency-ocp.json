@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "predicted-latency-ocp",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "OCP",
+  "message": "infra-error",
+  "color": "orange"
 }
