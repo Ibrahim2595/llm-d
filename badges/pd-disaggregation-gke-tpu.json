@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "pd-disaggregation-gke-tpu",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "GKE TPU",
+  "message": "passing",
+  "color": "brightgreen"
 }
