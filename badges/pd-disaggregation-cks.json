@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "pd-disaggregation-cks",
-  "message": "unknown",
-  "color": "lightgrey"
+  "label": "CKS",
+  "message": "passing",
+  "color": "brightgreen"
 }
