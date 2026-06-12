@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "CKS",
+  "label": "VLLM GPU",
   "message": "passing",
   "color": "brightgreen"
 }
