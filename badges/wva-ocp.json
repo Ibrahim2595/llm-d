@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "OCP",
+  "label": "VLLM GPU",
   "message": "passing",
   "color": "brightgreen"
 }
