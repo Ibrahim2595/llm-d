@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "EndPoint Picker HPA/KEDA Integration"
+---
+
 # HPA/KEDA with EPP Metrics
 
 The EndPoint Picker (EPP) HPA/KEDA integration enables Kubernetes Horizontal Pod Autoscaler (HPA) to scale model server replicas using demand-side signals sourced from the EPP. Rather than relying on coarse resource utilization metrics, it exposes the EPP's internal queuing state as the authoritative signal for LLM inference load. This approach is well-suited for homogeneous deployments where each model scales independently.

@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: "Kubernetes Multi-Node Orchestration"
+---
+
 # Multi-Node Serving Orchestration
 
 ## (Optional) Install LeaderWorkerSet for multi-host inference

@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "InferenceObjective"
+---
+
 # InferenceObjective
 
 `InferenceObjective` represents the desired state of a specific model use case. It allows "Inference Workload Owners" to define performance and latency goals for a model within an `InferencePool`.

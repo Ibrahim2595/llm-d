@@ -1,3 +1,8 @@
+---
+sidebar_position: 5
+sidebar_label: "RDMA & Networking Configuration"
+---
+
 # Remote Direct Memory Access (RDMA) and Networking Configuration
 
 ## Why Networking Matters

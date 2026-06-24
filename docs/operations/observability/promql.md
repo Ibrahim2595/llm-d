@@ -1,3 +1,8 @@
+---
+sidebar_position: 4
+sidebar_label: "PromQL"
+---
+
 # PromQL Query Reference
 
 Ready-to-use PromQL queries for monitoring llm-d deployments. Use these in the Prometheus UI or as the basis for Grafana panels.

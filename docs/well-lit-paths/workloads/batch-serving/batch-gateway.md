@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "Batch Gateway"
+---
+
 # Batch Gateway
 
 Process large-scale batch inference jobs via an OpenAI-compatible API, enabling batch and interactive workloads to coexist efficiently on shared infrastructure.

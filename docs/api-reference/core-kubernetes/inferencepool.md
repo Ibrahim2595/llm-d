@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: "InferencePool"
+---
+
 # InferencePool
 
 `InferencePool` is the Schema for the `InferencePools` API. It defines a pool of inference endpoints that can be used by a Gateway.

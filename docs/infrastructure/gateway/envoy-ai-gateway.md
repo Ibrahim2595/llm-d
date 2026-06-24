@@ -1,3 +1,7 @@
+---
+sidebar_position: 4
+---
+
 # Envoy AI Gateway
 
 This guide shows how to deploy llm-d with

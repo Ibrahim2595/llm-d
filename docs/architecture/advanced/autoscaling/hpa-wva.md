@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: "Workload Variant Autoscaling"
+---
+
 # HPA/KEDA with WVA Metrics
 
 > [!WARNING]

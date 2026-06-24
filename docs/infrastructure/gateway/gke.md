@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # GKE
 
 This guide shows how to deploy llm-d with

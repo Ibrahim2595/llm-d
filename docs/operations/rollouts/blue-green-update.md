@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Blue-Green Update
 
 The goal of this guide is to show you how to perform incremental roll out operations,

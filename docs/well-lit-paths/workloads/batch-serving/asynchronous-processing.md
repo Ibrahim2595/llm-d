@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: "Asynchronous Processing"
+---
+
 # Asynchronous Processing
 
 The Asynchronous Processing path enables queue-based inference for latency-insensitive workloads or for filling "slack" capacity in your inference pool. It decouples request submission from execution, allowing clients to submit large volumes of work without maintaining a long-lived HTTP connection.

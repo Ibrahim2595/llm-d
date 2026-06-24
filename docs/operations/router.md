@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: "Router Operations Guide"
+---
+
 # Router Operations Guide
 
 This guide covers operational best practices, high availability deployment architectures, and container sizing recommendations for the llm-d Router components.

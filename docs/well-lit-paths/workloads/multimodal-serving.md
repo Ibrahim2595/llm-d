@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "Serve Multimodal Workloads"
+---
+
 # Multimodal Workload Serving
 
 Multimodal inputs are fundamentally changing the shape of production LLM traffic. 

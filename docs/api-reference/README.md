@@ -6,9 +6,9 @@ The following Kubernetes APIs are defined in the `inference.networking.k8s.io` (
 
 | Resource | API Group | Version | Description |
 | --- | --- | --- | --- |
-| [InferencePool](inferencepool.md) | `inference.networking.k8s.io` | `v1` | Defines a pool of inference endpoints (model servers) to configure the **Endpoint Picker (EPP)** and Gateways for inference-optimized routing. |
-| [InferenceObjective](inferenceobjective.md) | `llm-d.ai` | `v1alpha2` | Defines performance goals (priority, latency) for specific model workloads within a pool. |
-| [InferenceModelRewrite](inferencemodelrewrite.md) | `llm-d.ai` | `v1alpha2` | Specifies rules for rewriting model names in request bodies, enabling traffic splitting and canary rollouts. |
+| [InferencePool](core-kubernetes/inferencepool.md) | `inference.networking.k8s.io` | `v1` | Defines a pool of inference endpoints (model servers) to configure the **Endpoint Picker (EPP)** and Gateways for inference-optimized routing. |
+| [InferenceObjective](core-kubernetes/inferenceobjective.md) | `llm-d.ai` | `v1alpha2` | Defines performance goals (priority, latency) for specific model workloads within a pool. |
+| [InferenceModelRewrite](core-kubernetes/inferencemodelrewrite.md) | `llm-d.ai` | `v1alpha2` | Specifies rules for rewriting model names in request bodies, enabling traffic splitting and canary rollouts. |
 
 ## Component Configuration
 

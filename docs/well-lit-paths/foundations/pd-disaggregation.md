@@ -1,3 +1,8 @@
+---
+sidebar_position: 5
+sidebar_label: "Deploy Prefill/Decode Disaggregation"
+---
+
 # P/D Disaggregation
 
 LLM inference has two computationally distinct phases:

@@ -1,3 +1,8 @@
+---
+sidebar_position: 7
+sidebar_label: "Apply Flow Control and Fairness"
+---
+
 # Flow Control
 
 Flow Control feature enables intelligent request queuing. Request queuing is useful for multiple reasons:

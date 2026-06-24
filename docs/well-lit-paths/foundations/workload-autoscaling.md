@@ -1,3 +1,8 @@
+---
+sidebar_position: 8
+sidebar_label: "Autoscale your Inference Pool"
+---
+
 # Workload Autoscaling
 
 Traditional autoscaling indicators like resource utilization metrics (CPU/GPU) are often lagging indicators — they only reflect saturation after it has already occurred, by which point latency has spiked and requests may be failing. For LLM inference, this problem is compounded by the fact that GPU utilization is often pegged near 100% during active batching regardless of actual load, making it an unreliable signal entirely.

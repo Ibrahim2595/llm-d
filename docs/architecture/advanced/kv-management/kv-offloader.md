@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # KV-Cache Offloading
 
 KV-Cache offloading extends the effective cache capacity beyond GPU HBM by moving KV blocks to lower-cost tiers like CPU DRAM and shared storage.

@@ -1,3 +1,8 @@
+---
+sidebar_position: 4
+sidebar_label: "Configure a Tiered Prefix Cache"
+---
+
 # Tiered Prefix Cache
 
 Given the multi-turn nature of agentic workloads, prefix-cache re-use is a critical factor for high performance inference.

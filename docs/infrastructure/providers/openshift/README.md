@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+---
+
 # llm-d on OpenShift
 
 This document covers configuring OpenShift clusters for running high performance LLM inference with llm-d.

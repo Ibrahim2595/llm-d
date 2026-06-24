@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: "HTTP APIs"
+---
+
 # EPP HTTP APIs Reference
 
 This document lists the HTTP APIs the [Endpoint Picker (EPP)](../architecture/core/router/epp) supports for inference traffic. Depending on the API, the EPP may parse fields from the request body to do prefix-cache aware routing, and plugin decisions.

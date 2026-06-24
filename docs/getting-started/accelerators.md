@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "Supported Accelerators"
+---
+
 # llm-d Accelerators
 
 llm-d supports multiple accelerator vendors and we are expanding our coverage.

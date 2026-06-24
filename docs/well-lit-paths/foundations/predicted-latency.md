@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "Route Requests by Predicted Latency"
+---
+
 # Predicted Latency-Based Scheduling
 
 llm-d's [optimized baseline guide](./optimized-baseline.md) leverages load signals and prefix-cache affinity to schedule requests, combining the signals together with heuristics.

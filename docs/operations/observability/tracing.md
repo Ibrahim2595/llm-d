@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: "Tracing"
+---
+
 # Distributed Tracing
 
 This guide shows how to enable [OpenTelemetry](https://opentelemetry.io/) distributed tracing across llm-d components.

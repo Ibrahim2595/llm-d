@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Proxy
 
 The proxy is the entry point for inference requests in llm-d Router, receiving client traffic and routing it to the optimal model server via the EPP. Supported implementations range from self-managed application load balancers (e.g., Istio, agentgateway, Envoy AI Gateway) to compliant cloud-managed services, such as Google Cloud's Application Load Balancer. It supports two primary deployment modes: **Standalone Mode**, where a self-managed proxy runs alongside the EPP in the same pod, and **Gateway Mode**, which integrates with L7 load balancers via the Kubernetes Gateway API.

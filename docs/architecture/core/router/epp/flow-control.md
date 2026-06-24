@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Flow Control
 
 The Flow Control layer within the EPP is a critical mechanism for pool defense and multi-tenancy. It protects the pool of model servers from overload by shifting intelligent queuing to the gateway, enforcing strict priority and tenant-aware fairness.

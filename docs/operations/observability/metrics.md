@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: "Monitoring & Metrics"
+---
+
 # Metrics
 
 This page covers how to enable and interpret metrics from an llm-d deployment. For Prometheus and Grafana installation, see [Observability Setup](./setup.md) first.

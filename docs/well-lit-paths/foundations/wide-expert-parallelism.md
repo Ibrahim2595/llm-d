@@ -1,3 +1,8 @@
+---
+sidebar_position: 6
+sidebar_label: "Scale MoE Models with Wide Expert Parallelism"
+---
+
 # Multi-Node Wide Expert Parallelism
 
 Very large MoE models like DeepSeek-R1 can consume 500GB+ of RAM just to hold the weights of the model, pressuring KV cache space for long context and high throughput serving. This problem is especially magnified for models with MLA attention, which replicates the KV cache when sharded with tensor parallelism.

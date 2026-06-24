@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: "InferenceModelRewrite"
+---
+
 # InferenceModelRewrite
 
 `InferenceModelRewrite` defines rules for rewriting inference requests, such as traffic splitting, A/B tests, or canary rollouts across weighted model targets.

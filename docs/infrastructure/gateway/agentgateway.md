@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Agentgateway
 
 This guide shows how to deploy llm-d with

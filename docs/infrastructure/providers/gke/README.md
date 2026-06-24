@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # llm-d on Google Kubernetes Engine (GKE)
 
 This document covers configuring GKE clusters for running high performance LLM inference with llm-d.

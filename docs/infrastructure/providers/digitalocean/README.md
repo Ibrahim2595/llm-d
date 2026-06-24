@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # llm-d on DigitalOcean Kubernetes Service (DOKS)
 
 This document covers configuring DOKS clusters for running high performance LLM inference with llm-d.

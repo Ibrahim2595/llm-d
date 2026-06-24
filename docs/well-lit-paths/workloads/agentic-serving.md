@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: "Serve Agentic Workloads"
+---
+
 # Agentic Serving
 
 Agents are becoming the dominant shape of production LLM traffic. A single user goal expands into

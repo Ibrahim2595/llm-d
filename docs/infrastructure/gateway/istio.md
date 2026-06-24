@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Istio
 
 This guide shows how to deploy llm-d with [Istio](https://istio.io/) as your inference gateway. By the end, inference requests will flow from an Istio-managed `Gateway` to your model servers via the llm-d EPP.
