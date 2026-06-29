@@ -23,13 +23,15 @@ const docsVersions = LATEST_VERSION
   ? {
       lastVersion: LATEST_VERSION,
       versions: {
-        current: { label: 'dev', path: 'dev', banner: 'unreleased' },
+        // Released versions first (newest = default at /docs, older at /docs/<v>),
+        // then the unreleased dev version last — this is the version dropdown order.
         ...Object.fromEntries(
           releasedVersions.map((v) => [
             v,
             { label: `v${v}`, path: v === LATEST_VERSION ? '' : v, badge: true },
           ]),
         ),
+        current: { label: 'dev', path: 'dev', banner: 'unreleased' },
       },
     }
   : {};
@@ -181,8 +183,10 @@ const config = {
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'docsSidebar',
+            // Plain link (not a version-aware docSidebar item) so "Docs" always
+            // opens the latest release at /docs, regardless of the version the
+            // visitor last viewed (dev/0.7 are reachable via the dropdown).
+            to: '/docs',
             position: 'left',
             label: 'Docs',
           },
@@ -198,6 +202,8 @@ const config = {
             type: 'docsVersionDropdown',
             position: 'right',
             dropdownActiveClassDisabled: true,
+            // Order the dropdown releases-first (newest default at top), dev last.
+            versions: [...releasedVersions, 'current'],
           },
           {
             href: GITHUB_REPO,

@@ -102,7 +102,12 @@ export function makeDocsPreprocessor({ repoRoot, docsDir }) {
     let content = fileContent.replace(/https?:\/\/llm-d\.ai\/img\//g, '/img/');
     content = content.replace(
       /((?:to|href)=")\/([a-z-]+)(?=["#/])/g,
-      (full, pre, sec) => (SECTIONS.includes(sec) ? `${pre}/docs/${sec}` : full),
+      (full, pre, sec) => {
+        // The docs renamed the "guides" section to "well-lit-paths"; map the
+        // legacy upstream link so it resolves (the content now lives there).
+        if (sec === 'guides') return `${pre}/docs/well-lit-paths`;
+        return SECTIONS.includes(sec) ? `${pre}/docs/${sec}` : full;
+      },
     );
 
     let inFence = false;
