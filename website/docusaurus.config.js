@@ -7,22 +7,29 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import { makeDocsPreprocessor } from './scripts/lib/preprocess.mjs';
 
 const GITHUB_REPO = 'https://github.com/llm-d/llm-d';
-const LATEST_VERSION = '0.7.0';
 
-// Self-adjusting versioning: only wire up the version map once the snapshot
-// exists. This lets `npm run version:cut` recreate versioned_docs/ without the
-// config referencing a version that is momentarily absent.
+// Self-adjusting versioning: derive the version map from versions.json (which
+// docusaurus writes newest-first). The newest release is served at /docs and the
+// rest at /docs/<version>; the committed dev docs/ are the unreleased "dev"
+// version at /docs/dev. Reading the file lets `npm run version:cut` recreate
+// versioned_docs/ without the config hard-coding a version that may be absent.
 const siteDir = path.dirname(fileURLToPath(import.meta.url));
 const versionsFile = path.join(siteDir, 'versions.json');
 const releasedVersions = fs.existsSync(versionsFile)
   ? JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
   : [];
-const docsVersions = releasedVersions.includes(LATEST_VERSION)
+const LATEST_VERSION = releasedVersions[0];
+const docsVersions = LATEST_VERSION
   ? {
       lastVersion: LATEST_VERSION,
       versions: {
         current: { label: 'dev', path: 'dev', banner: 'unreleased' },
-        [LATEST_VERSION]: { label: `v${LATEST_VERSION}`, path: '', badge: true },
+        ...Object.fromEntries(
+          releasedVersions.map((v) => [
+            v,
+            { label: `v${v}`, path: v === LATEST_VERSION ? '' : v, badge: true },
+          ]),
+        ),
       },
     }
   : {};
@@ -153,9 +160,9 @@ const config = {
         respectPrefersColorScheme: true,
       },
       announcementBar: {
-        id: 'llm-d-0-7-0',
+        id: 'llm-d-0-8-0',
         content:
-          '🎉 <b>llm-d 0.7.0 is now available!</b> <a href="/docs">Browse the docs →</a>',
+          '🎉 <b>llm-d 0.8 is here!</b> Multimodal, batch &amp; flow-control graduate to production, with broader accelerator support and initial RL. <a href="/docs/getting-started/quickstart"><b>See what\'s new →</b></a>',
         textColor: '#ffffff',
         isCloseable: true,
       },
@@ -214,7 +221,7 @@ const config = {
             items: [
               { label: 'Getting Started', to: '/docs' },
               { label: 'Architecture', to: '/docs/architecture' },
-              { label: 'Guides', to: '/docs/guides' },
+              { label: 'Well-Lit Paths', to: '/docs/well-lit-paths' },
               { label: 'API Reference', to: '/docs/api-reference' },
             ],
           },

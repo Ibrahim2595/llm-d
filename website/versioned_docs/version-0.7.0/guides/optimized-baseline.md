@@ -44,4 +44,4 @@ EPP continuously probes each endpoints' metrics by scraping `/metrics` at a regu
 
 ## Further Reading
 
-See [EPP Architecture](/docs/architecture/core/router/epp) for more details.
+See [EPP Architecture](/docs/0.7.0/architecture/core/router/epp) for more details.

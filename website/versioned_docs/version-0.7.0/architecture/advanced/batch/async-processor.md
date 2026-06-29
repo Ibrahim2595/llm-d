@@ -40,6 +40,6 @@ Prometheus metrics include request totals, success/failure counts, retry counts,
 
 ## Related
 
-- [Async Processor Well-Lit Path](/docs/guides/asynchronous-processing) — a guide for deploying the Async Processor.
+- [Async Processor Well-Lit Path](/docs/0.7.0/guides/asynchronous-processing) — a guide for deploying the Async Processor.
 - [Async Processor Repository](https://github.com/llm-d-incubation/llm-d-async) — source code and Helm chart.
 - [Batch Gateway](batch-gateway.md) — composes with the Async Processor for batch job management.

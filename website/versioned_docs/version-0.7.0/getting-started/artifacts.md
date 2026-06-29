@@ -126,7 +126,7 @@ Users can adapt the examples to other platforms as needed.
 :::
 
 
-See the [full list of guides](/docs/guides) for more details.
+See the [full list of guides](/docs/0.7.0/guides) for more details.
 
 
 ## 5. Gateways

@@ -4,15 +4,15 @@ High-level guide to llm-d architecture. Start here, then dive into specific guid
 
 ## Core Components
 
-The llm-d architecture is built around three primary concepts: the [Router](/docs/architecture/core/router), the [InferencePool](/docs/architecture/core/inferencepool), and the [Model Server](/docs/architecture/core/model-servers).
+The llm-d architecture is built around three primary concepts: the [Router](/docs/0.7.0/architecture/core/router), the [InferencePool](/docs/0.7.0/architecture/core/inferencepool), and the [Model Server](/docs/0.7.0/architecture/core/model-servers).
 
-- **[llm-d Router](/docs/architecture/core/router)** - The intelligent entry point for inference requests. It provides LLM-aware load balancing, request queuing, and policy enforcement. It is composed of two functional parts:
+- **[llm-d Router](/docs/0.7.0/architecture/core/router)** - The intelligent entry point for inference requests. It provides LLM-aware load balancing, request queuing, and policy enforcement. It is composed of two functional parts:
     - **[Proxy](core/router/proxy.md)**: A high-performance L7 proxy (typically Envoy) that accepts user requests and consults the EPP via the `ext-proc` protocol to determine the optimal destination.
-    - **[Endpoint Picker (EPP)](/docs/architecture/core/router/epp)**: The routing engine that scores and selects model server pods based on real-time metrics, KV-cache affinity, and configured policies.
+    - **[Endpoint Picker (EPP)](/docs/0.7.0/architecture/core/router/epp)**: The routing engine that scores and selects model server pods based on real-time metrics, KV-cache affinity, and configured policies.
 
-- **[InferencePool](/docs/architecture/core/inferencepool)** - The API that defines a group of Model Server Pods sharing the same model and compute configuration. Conceptualized as an "LLM-optimized Service", it serves as the discovery target for the Router.
+- **[InferencePool](/docs/0.7.0/architecture/core/inferencepool)** - The API that defines a group of Model Server Pods sharing the same model and compute configuration. Conceptualized as an "LLM-optimized Service", it serves as the discovery target for the Router.
 
-- **[Model Server](/docs/architecture/core/model-servers)** - The inference engine (such as vLLM or SGLang) that executes the model on hardware accelerators (GPUs, TPUs, HPUs).
+- **[Model Server](/docs/0.7.0/architecture/core/model-servers)** - The inference engine (such as vLLM or SGLang) that executes the model on hardware accelerators (GPUs, TPUs, HPUs).
 
 <p align="center">
   <picture>
@@ -32,7 +32,7 @@ llm-d provides a comprehensive ecosystem for managing and reusing the KV cache a
 - [KV-Cache Indexing](advanced/kv-management/kv-indexer.md): Event-driven tracking of cache state across all model servers.
 - [KV Offloading](advanced/kv-management/kv-offloader.md): Tiered storage hierarchy (CPU, SSD) for extending cache capacity.
 
-See [KV Cache Management](/docs/architecture/advanced/kv-management) for an overview of how these components compose.
+See [KV Cache Management](/docs/0.7.0/architecture/advanced/kv-management) for an overview of how these components compose.
 
 ### Disaggregated Serving
 

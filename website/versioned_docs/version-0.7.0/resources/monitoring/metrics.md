@@ -3,7 +3,7 @@
 This guide shows how to collect and visualize metrics from an llm-d deployment using Prometheus and Grafana.
 
 :::note
-This guide assumes you have a running llm-d deployment with an InferencePool and model servers. See the [quickstart](/docs/getting-started/quickstart) if you need to set one up first.
+This guide assumes you have a running llm-d deployment with an InferencePool and model servers. See the [quickstart](/docs/0.7.0/getting-started/quickstart) if you need to set one up first.
 :::
 
 
