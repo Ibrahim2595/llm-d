@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
   "label": "VLLM ROCM",
-  "message": "infra-error",
-  "color": "orange"
+  "message": "timeout",
+  "color": "yellow"
 }
