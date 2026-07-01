@@ -4,6 +4,8 @@ sidebar_label: "Contributing"
 sidebar_position: 3
 description: "Contributing to llm-d — llm-d community"
 custom_edit_url: https://github.com/llm-d/llm-d/edit/main/CONTRIBUTING.md
+# Standalone page reached from the "Contributing" navbar item — no left sidebar.
+displayed_sidebar: null
 ---
 
 :::info
