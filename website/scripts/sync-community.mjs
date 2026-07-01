@@ -23,7 +23,9 @@ const REPO = path.resolve(WEBSITE, '..');
 const OUT = path.join(WEBSITE, 'community');
 
 const PAGES = [
-  { src: 'CONTRIBUTING.md', out: 'contribute.md', title: 'Contributing to llm-d', label: 'Contributing', position: 3 },
+  // Contributing is also a top-level navbar section and renders as a standalone
+  // page, so it hides the community left sidebar (displayed_sidebar: null).
+  { src: 'CONTRIBUTING.md', out: 'contribute.md', title: 'Contributing to llm-d', label: 'Contributing', position: 3, hideSidebar: true },
   { src: 'CODE_OF_CONDUCT.md', out: 'code-of-conduct.md', title: 'Code of Conduct', label: 'Code of Conduct', position: 4 },
   { src: 'SECURITY.md', out: 'security.md', title: 'Security Policy', label: 'Security', position: 5 },
   { src: 'SIGS.md', out: 'sigs.md', title: 'Special Interest Groups (SIGs)', label: 'SIGs', position: 6 },
@@ -51,15 +53,20 @@ for (const page of PAGES) {
   let body = fs.readFileSync(src, 'utf8').replace(/^\s*#\s+.*\n/, '');
   body = transformContent(body, '.', { escapeBraces: true }); // generated pages are .md (CommonMark)
 
-  const frontmatter = [
+  const fm = [
     '---',
     `title: ${JSON.stringify(page.title)}`,
     `sidebar_label: ${JSON.stringify(page.label)}`,
     `sidebar_position: ${page.position}`,
     `description: ${JSON.stringify(`${page.title} — llm-d community`)}`,
     'custom_edit_url: ' + `https://github.com/llm-d/llm-d/edit/main/${page.src}`,
-    '---',
-  ].join('\n');
+  ];
+  if (page.hideSidebar) {
+    fm.push('# Standalone page reached from the "Contributing" navbar item — no left sidebar.');
+    fm.push('displayed_sidebar: null');
+  }
+  fm.push('---');
+  const frontmatter = fm.join('\n');
 
   const note = `:::info\nThis page mirrors [\`${page.src}\`](https://github.com/llm-d/llm-d/blob/main/${page.src}) from the llm-d repository. Edit it there.\n:::`;
 
