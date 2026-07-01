@@ -230,3 +230,47 @@ div[class*='announcementBar_'] button[class*='closeButton'] {
   filter: brightness(0) invert(1);
   opacity: 0.85;
 }
+
+/* ---------------------------------------------------------------------------
+   Docs & community left nav.
+
+   A roomier, clearly-sectioned sidebar: bold section headers, medium-grey leaf
+   links, and a full-width active row (light band + brand-purple text). Scoped to
+   `.theme-doc-sidebar-menu`, so it styles every docs version and the community
+   sidebar at once and never touches the mobile navbar drawer. */
+.theme-doc-sidebar-menu {
+  --ifm-menu-color: #393939;                     /* leaf link text (near-black, not grey) */
+  --ifm-menu-color-active: #7f317f;              /* active row text (brand purple) */
+  --ifm-menu-color-background-active: #f2f4f8;   /* active row band */
+  --ifm-menu-color-background-hover: #f2f4f8;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+}
+.theme-doc-sidebar-menu .menu__link {
+  border-radius: 0; /* full-width band with square edges */
+  padding: 0.5rem 1rem;
+  line-height: 1.35;
+  font-weight: 400; /* leaf links: regular (thinner) */
+}
+.theme-doc-sidebar-menu .menu__list-item:not(:first-child) {
+  margin-top: 0.15rem;
+}
+/* Section headers (collapsible categories): semibold + near-black. */
+.theme-doc-sidebar-menu .menu__link--sublist:not(.menu__link--active) {
+  font-weight: 600;
+  color: #161616;
+}
+/* Active row: semibold. */
+.theme-doc-sidebar-menu .menu__link--active {
+  font-weight: 600;
+}
+
+[data-theme='dark'] .theme-doc-sidebar-menu {
+  --ifm-menu-color: #c6c6c6;
+  --ifm-menu-color-active: #d68bd6;
+  --ifm-menu-color-background-active: #2a2a2a;
+  --ifm-menu-color-background-hover: #2a2a2a;
+}
+[data-theme='dark'] .theme-doc-sidebar-menu .menu__link--sublist:not(.menu__link--active) {
+  color: #f4f4f4;
+}

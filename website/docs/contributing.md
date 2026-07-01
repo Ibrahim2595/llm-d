@@ -35,6 +35,9 @@ Most pages need none — the H1 is the title and the folder decides placement. A
 | `title` | Set the browser/tab title if it should differ from the H1. |
 | `description` | Write the meta description used for search and link previews. |
 | `slug` | Change the page's URL path. |
+| `draft` | Hide an unfinished page from the published site. |
+
+A `draft: true` page still renders in local dev (`npm start`) so you can preview it, but it's left out of the production build until you drop the flag.
 
 ```md
 ---
