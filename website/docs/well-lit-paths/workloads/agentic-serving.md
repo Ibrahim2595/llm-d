@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Agentic Serving
 
 Agents are becoming the dominant shape of production LLM traffic. A single user goal expands into
