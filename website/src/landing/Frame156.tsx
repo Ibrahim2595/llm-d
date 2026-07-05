@@ -1,105 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import svgPaths from "./svgPaths";
 import Link from "@docusaurus/Link";
-
-type ReleaseEntry = { text: string; pr: string | null };
-
-const allReleaseData: Record<string, ReleaseEntry[]> = {
-  "v0.8.1": [
-    { text: "Point to patch v0.8.1", pr: null },
-    { text: "Updated the branch to clone in the guides to release-0.8 branch", pr: "1958" },
-    { text: "Pin inference-perf version", pr: "1946" },
-  ],
-  "v0.8.0": [
-    { text: "Simplify WVA guide test", pr: "1072" },
-    { text: "fix concurrency group to sha not PR", pr: "1073" },
-    { text: "fix block-size alignment", pr: "1084" },
-    { text: "Revise maturity status and TPU VM type details", pr: "1085" },
-    { text: "Fix formatting of automated test status in README", pr: "1087" },
-    { text: "Fix image on pd user guide", pr: "1086" },
-    { text: "Updated maturity testing level on all guides", pr: "1094" },
-    { text: "Skip latest tag for release candidates", pr: "1034" },
-    { text: "fix(xpu): enable TP=2 for Qwen3-32B for fixing XPU prefix-cache test failed", pr: "1081" },
-    { text: "[guides] Add a commented priorityClassName for use in nightly CI/CD", pr: "1062" },
-  ],
-  "v0.7.0": [
-    { text: "Simplify WVA guide test", pr: "1072" },
-    { text: "fix concurrency group to sha not PR", pr: "1073" },
-    { text: "fix block-size alignment", pr: "1084" },
-    { text: "Revise maturity status and TPU VM type details", pr: "1085" },
-    { text: "Fix formatting of automated test status in README", pr: "1087" },
-    { text: "Fix image on pd user guide", pr: "1086" },
-    { text: "Updated maturity testing level on all guides", pr: "1094" },
-    { text: "Skip latest tag for release candidates", pr: "1034" },
-    { text: "fix(xpu): enable TP=2 for Qwen3-32B for fixing XPU prefix-cache test failed", pr: "1081" },
-    { text: "[guides] Add a commented priorityClassName for use in nightly CI/CD", pr: "1062" },
-  ],
-  "v0.6.0": [
-    { text: "Add SGLang option for inference-scheduling well-lit path", pr: "527" },
-    { text: "add step to build hpu", pr: "917" },
-    { text: "Remove per-repo gh-aw typo/link/upstream workflows", pr: "920" },
-    { text: "docs: Small fixes in the inference-scheduling installation guide", pr: "924" },
-    { text: "Fix link to vLLM Native CPU Offloading documentation", pr: "928" },
-    { text: "docs: Remove unnecessary backticks around llm-d", pr: "933" },
-    { text: "Partial enablement of CICD for GKE", pr: "934" },
-    { text: "Add hpu to ci-release", pr: "918" },
-    { text: "Only report on 404 broken links and not temp issues or scraper blocks", pr: "846" },
-    { text: "hpu: update images", pr: "936" },
-  ],
-  "v0.5.1": [
-    { text: "Fix XPU example errors", pr: "696" },
-    { text: "Simplify storage offloading guides into a single one", pr: "683" },
-    { text: "feat: remove standalone", pr: "688" },
-    { text: "update permissions for lustre guide setup", pr: "710" },
-    { text: "Fix: add retries for model discovery", pr: "704" },
-    { text: "[BUGFIX] Comment caching to avoid error", pr: "719" },
-    { text: "Fix lint issues", pr: "721" },
-    { text: "llm-d install doc on openshift 4.20", pr: "538" },
-    { text: "Enables AMD inference scheduling well-lit path", pr: "642" },
-    { text: "[build fix] Remove linking compat dir", pr: "727" },
-  ],
-  "v0.5.0": [],
-  "v0.4.0": [
-    { text: "Add umbrella kv cache offloading well-lit path folder structure", pr: "401" },
-    { text: "Correct wide-ep resource requirements.", pr: "373" },
-    { text: "add information about component testing", pr: "361" },
-    { text: "doc(guides): Introduce standardized recipes for Gateway, InferencePool, and vLLM", pr: "444" },
-    { text: "Fix a broken link in the cpu prefix cache readme", pr: "451" },
-    { text: "Add more GKE specific workarounds and known issues", pr: "419" },
-    { text: "Update SIGs documentation to remove outdated schedule details.", pr: "431" },
-    { text: "Update links to deploying vLLM multi-host in stable docs", pr: "436" },
-    { text: "fix kutomization error and model flag error in cpu offloading.", pr: "453" },
-    { text: "Add GKE B200 readme notes", pr: "454" },
-  ],
-  "v0.3.1": [
-    { text: "[bugfix] changing filename to not reference old plugin", pr: "353" },
-    { text: "Deprecate all InferenceModel in XPU guides", pr: "358" },
-    { text: "version bump on vllm release v0.11.0 tag move", pr: "365" },
-    { text: "Update SIGS.md owners", pr: "363" },
-    { text: "Clear /dev/shm before process startup to prevent crashloops", pr: "364" },
-    { text: "Add hardware and platform support issue template", pr: "359" },
-    { text: "minor typo in the inference guide", pr: "377" },
-    { text: "docs: introduce AKS as a well-lit infra provider", pr: "335" },
-    { text: "Correct # of measured output tokens / s", pr: "350" },
-    { text: "refactor dockerfiles to a set bash scripts", pr: "324" },
-  ],
-  "v0.3.0": [],
-  "v0.2.0": [],
-};
-
-const topContributors = [
-  { login: "Gregory-Pereira", avatar: "https://avatars.githubusercontent.com/u/19876404?v=4", url: "https://github.com/Gregory-Pereira" },
-  { login: "clubanderson", avatar: "https://avatars.githubusercontent.com/u/407614?v=4", url: "https://github.com/clubanderson" },
-  { login: "lionelvillard", avatar: "https://avatars.githubusercontent.com/u/6598801?v=4", url: "https://github.com/lionelvillard" },
-  { login: "ahg-g", avatar: "https://avatars.githubusercontent.com/u/40361897?v=4", url: "https://github.com/ahg-g" },
-  { login: "robertgshaw2-redhat", avatar: "https://avatars.githubusercontent.com/u/114415538?v=4", url: "https://github.com/robertgshaw2-redhat" },
-  { login: "diegocastanibm", avatar: "https://avatars.githubusercontent.com/u/117670907?v=4", url: "https://github.com/diegocastanibm" },
-  { login: "liu-cong", avatar: "https://avatars.githubusercontent.com/u/6902282?v=4", url: "https://github.com/liu-cong" },
-  { login: "maugustosilva", avatar: "https://avatars.githubusercontent.com/u/2022883?v=4", url: "https://github.com/maugustosilva" },
-  { login: "smarterclayton", avatar: "https://avatars.githubusercontent.com/u/1163175?v=4", url: "https://github.com/smarterclayton" },
-  { login: "petecheslock", avatar: "https://avatars.githubusercontent.com/u/511733?v=4", url: "https://github.com/petecheslock" },
-];
-const totalContributors = 151;
+import { useReleaseData, type Contributor } from "./releaseData";
 
 function G44() {
   return (
@@ -1270,7 +1172,7 @@ function Frame1() {
 
 function Frame38() {
   return (
-    <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
+    <div className="llmd-paths-stack content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full">
       <Frame />
       <Frame1 />
     </div>
@@ -1304,7 +1206,7 @@ function Frame2() {
 function Frame35() {
   return (
     <div className="col-1 justify-self-stretch relative row-2 self-stretch shrink-0">
-      <div className="content-stretch flex flex-col gap-[48px] items-start py-[88px] relative size-full">
+      <div className="llmd-after-hero content-stretch flex flex-col gap-[48px] items-start py-[88px] relative size-full">
         <Frame36 />
         <Frame51 />
         <Frame2 />
@@ -1323,7 +1225,7 @@ function Frame24() {
         <span className="leading-[normal] text-[#7f317f] text-[56px]">LLM inference</span>
         <span className="leading-[normal] text-[56px]">{` on any accelerator.`}</span>
       </p>
-      <div className="font-['IBM_Plex_Sans',sans-serif] relative shrink-0 text-[#343a3f] text-[24px] w-full">
+      <div className="llmd-hero-subtitle font-['IBM_Plex_Sans',sans-serif] relative shrink-0 text-[#343a3f] text-[24px] w-full">
         <p className="leading-[28px]">llm-d is an open-source inference serving stack for Kubernetes. It runs your model server of choice—vLLM and SGLang, and more—across your cluster, turning single-node engines into production-grade distributed inference on the infrastructure you already run.</p>
       </div>
     </div>
@@ -1586,7 +1488,7 @@ function Frame40() {
 function Frame54() {
   return (
     <div className="llmd-bleed-light col-1 justify-self-stretch relative row-1 self-stretch shrink-0">
-      <div className="content-stretch flex flex-col gap-[88px] items-start py-[88px] relative size-full">
+      <div className="llmd-hero-section content-stretch flex flex-col gap-[88px] items-start py-[88px] relative size-full">
         <ValueProp />
         <Frame40 />
       </div>
@@ -2555,12 +2457,15 @@ function Frame87() {
   );
 }
 
-function Frame103() {
+function Frame103({ contributors, totalContributors }: { contributors: Contributor[]; totalContributors: number }) {
+  // Show up to 10 avatars; the "+N" badge counts the remainder (never negative).
+  const shown = contributors.slice(0, 10);
+  const remainder = Math.max(0, totalContributors - shown.length);
   return (
     <div className="llmd-contributors relative shrink-0 w-full">
       <div aria-hidden className="absolute border-[#dde1e6] border-solid border-t inset-0 pointer-events-none" />
       <div className="content-stretch flex items-start p-[16px] relative size-full">
-        {topContributors.map((c) => (
+        {shown.map((c) => (
           <a
             key={c.login}
             href={c.url}
@@ -2578,31 +2483,37 @@ function Frame103() {
             />
           </a>
         ))}
-        <a
-          href="https://github.com/llm-d/llm-d/graphs/contributors"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#f2f4f8] content-stretch flex items-center justify-center relative rounded-[100px] shrink-0 size-[48px]"
-          style={{ textDecoration: "none" }}
-        >
-          <div aria-hidden className="absolute border border-[#dde1e6] border-solid inset-0 pointer-events-none rounded-[100px]" />
-          <p className="[word-break:break-word] font-['IBM_Plex_Sans',sans-serif] leading-[24px] not-italic relative shrink-0 text-[#343a3f] text-[16px] whitespace-nowrap">+{totalContributors - topContributors.length}</p>
-        </a>
+        {remainder > 0 && (
+          <a
+            href="https://github.com/llm-d/llm-d/graphs/contributors"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#f2f4f8] content-stretch flex items-center justify-center relative rounded-[100px] shrink-0 size-[48px]"
+            style={{ textDecoration: "none" }}
+          >
+            <div aria-hidden className="absolute border border-[#dde1e6] border-solid inset-0 pointer-events-none rounded-[100px]" />
+            <p className="[word-break:break-word] font-['IBM_Plex_Sans',sans-serif] leading-[24px] not-italic relative shrink-0 text-[#343a3f] text-[16px] whitespace-nowrap">+{remainder}</p>
+          </a>
+        )}
       </div>
     </div>
   );
 }
 
 function Frame86() {
-  const [selectedVersion, setSelectedVersion] = useState("v0.8.1");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  // Only surface v0.7.0 and later in the release-updates dropdown.
-  const versions = Object.keys(allReleaseData).filter((v) => {
-    const [maj, min] = v.replace(/^v/, "").split(".").map(Number);
-    return maj > 0 || min >= 7;
-  });
-  const entries = allReleaseData[selectedVersion] ?? [];
+  // Live release data (content + per-version contributors) from the GitHub API,
+  // with a static fallback. See src/landing/releaseData.ts.
+  const {
+    versions,
+    selected: selectedVersion,
+    setSelected: setSelectedVersion,
+    entries,
+    contributors,
+    totalContributors,
+    releaseUrl,
+  } = useReleaseData();
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -2664,7 +2575,7 @@ function Frame86() {
         {entries.length === 0 ? (
           <div className="flex flex-col items-center justify-center font-['IBM_Plex_Sans',sans-serif] p-[16px] relative w-full h-full text-[22px]">
             <a
-              href={`https://github.com/llm-d/llm-d/releases/tag/${selectedVersion}`}
+              href={releaseUrl}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "none" }}
@@ -2673,12 +2584,10 @@ function Frame86() {
             </a>
           </div>
         ) : (
-          <div className="[word-break:break-word] content-stretch flex flex-col font-['IBM_Plex_Sans',sans-serif] gap-[8px] items-start leading-[0] not-italic pt-[16px] px-[16px] relative w-full text-[22px] whitespace-nowrap">
+          <div className="content-stretch flex flex-col font-['IBM_Plex_Sans',sans-serif] gap-[8px] items-start leading-[0] not-italic pt-[16px] px-[16px] relative w-full text-[22px]">
             {entries.map((entry, i) => (
-              <div key={i} className="content-stretch flex gap-[8px] items-start relative shrink-0">
-                <div className="relative shrink-0 text-[#343a3f]">
-                  <p className="leading-[normal]">{entry.text}</p>
-                </div>
+              <div key={i} className="llmd-commit-entry">
+                <p className="llmd-commit-text leading-[normal] text-[#343a3f]" title={entry.text}>{entry.text}</p>
                 {entry.pr && (
                   <a
                     href={`https://github.com/llm-d/llm-d/pull/${entry.pr}`}
@@ -2697,7 +2606,7 @@ function Frame86() {
           </div>
         )}
       </div>
-      <Frame103 />
+      <Frame103 contributors={contributors} totalContributors={totalContributors} />
     </div>
   );
 }
@@ -2924,7 +2833,7 @@ function Frame116() {
       href="https://www.cncf.io/blog/2026/03/24/welcome-llm-d-to-the-cncf-evolving-kubernetes-into-sota-ai-infrastructure/"
       target="_blank"
       rel="noopener noreferrer"
-      className="content-stretch flex gap-[4px] items-center relative shrink-0 no-underline group"
+      className="llmd-founded-by content-stretch flex gap-[4px] items-center relative shrink-0 no-underline group"
       style={{ textDecoration: "none" }}
     >
       <div className="relative shrink-0 size-[16px]" data-name="Vector">

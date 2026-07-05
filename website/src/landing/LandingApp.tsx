@@ -87,9 +87,18 @@ export default function LandingApp() {
       if (vw >= DESKTOP_MIN) {
         frame.classList.remove("llmd-mobile");
         frame.style.minHeight = `${content.offsetHeight}px`;
+        // Hero grey band should end at the vertical midpoint of the stat cards
+        // (they straddle grey→white). Expose half the stat-row height as a CSS
+        // var; landing.css uses it for the negative margin + next-section pad.
+        const stats = frame.querySelector<HTMLElement>(".llmd-grid-stats");
+        frame.style.setProperty(
+          "--llmd-stats-overhang",
+          stats ? `${stats.offsetHeight / 2}px` : "0px"
+        );
       } else {
         frame.classList.add("llmd-mobile");
         frame.style.minHeight = "";
+        frame.style.setProperty("--llmd-stats-overhang", "0px");
       }
     };
     sync();

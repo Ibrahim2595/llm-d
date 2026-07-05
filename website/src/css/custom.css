@@ -43,9 +43,10 @@
   --ifm-navbar-item-padding-horizontal: 0.85rem;
 }
 
-/* Announcement bar — soft, modern on-brand gradient with clear text */
+/* Announcement bar — solid brand purple with clear text */
 div[class*='announcementBar_'] {
-  background-image: linear-gradient(90deg, #5e245e 0%, #7f317f 45%, #a044a0 100%);
+  background-color: #7f317f;
+  background-image: none;
   color: #fff;
   font-weight: 500;
   border-bottom: none;
@@ -151,6 +152,20 @@ div[class*='announcementBar_'] button[class*='closeButton'] {
 }
 .header-slack-link:hover {
   opacity: 0.75;
+}
+
+/* Mobile top navbar: show only the GitHub + Slack icons, hide their text.
+   Scoped to the top bar's right items (.navbar__items--right) so the hamburger
+   drawer — which lives under .navbar-sidebar — keeps the star count and the
+   "Join Slack" label as-is. The Slack label is hidden with font-size:0 (its
+   ::before icon has a fixed 21px box, so the icon still shows). */
+@media (max-width: 996px) {
+  .navbar__items--right .header-github-stars__count {
+    display: none;
+  }
+  .navbar__items--right .header-slack-link {
+    font-size: 0;
+  }
 }
 
 /* Footer CNCF logo — smaller, with breathing room from the copyright text */

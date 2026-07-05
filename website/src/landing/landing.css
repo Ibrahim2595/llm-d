@@ -94,6 +94,13 @@ html[data-theme='dark'] .llmd-frame.llmd-site-footer {
   .llmd-frame.llmd-site-footer .llmd-grid-footer > * {
     flex: 1 0 40%;
   }
+  /* "founded by:" centered; social icons wrap to two lines (same as landing). */
+  .llmd-frame.llmd-site-footer .llmd-founded-by {
+    align-self: center;
+  }
+  .llmd-frame.llmd-site-footer .llmd-socials {
+    flex-wrap: wrap;
+  }
 }
 
 /* Footer social icons. */
@@ -127,63 +134,66 @@ html[data-theme='dark'] .llmd-frame .llmd-header-logo .llmd-logo-dark {
   display: block;
 }
 
-/* Dark mode. The prototype is light-only, so these are reasonable Carbon-style
-   dark mappings of its palette (adjustable). Header follows the first section. */
+/* Dark mode — palette from the designer's dark-mode tokens. The footer /
+   "Portability" band (#121619) is intentionally dark in both themes, so its
+   surfaces and text are deliberately not remapped here. Header follows the
+   first (light) section. */
 html[data-theme='dark'] body.llmd-landing {
-  --ifm-navbar-background-color: #262626;
-  --ifm-navbar-shadow: 0 1px 0 0 #393939;
+  --ifm-navbar-background-color: #21272a;
+  --ifm-navbar-shadow: 0 1px 0 0 #343a3f;
 }
 html[data-theme='dark'] .llmd-frame {
-  background-color: #161616;
+  background-color: #000000;
 }
 html[data-theme='dark'] .llmd-frame .llmd-bleed-light {
-  background-color: #262626;
+  background-color: #21272a;
 }
 html[data-theme='dark'] .llmd-frame .bg-\[\#f2f4f8\] {
-  background-color: #2a2a2a;
+  background-color: #262626;
 }
 html[data-theme='dark'] .llmd-frame .bg-\[\#dde1e6\] {
-  background-color: #393939;
+  background-color: #343a3f;
 }
 html[data-theme='dark'] .llmd-frame .bg-white {
-  background-color: #161616;
+  background-color: #000000;
 }
 html[data-theme='dark'] .llmd-frame .text-black,
 html[data-theme='dark'] .llmd-frame .text-\[\#121619\],
 html[data-theme='dark'] .llmd-frame .text-\[\#21272a\] {
-  color: #f4f4f4;
+  color: #f2f4f8;
 }
 html[data-theme='dark'] .llmd-frame .text-\[\#343a3f\],
 html[data-theme='dark'] .llmd-frame .text-\[\#4d4d4d\] {
-  color: #c6c6c6;
+  color: #dde1e6;
 }
 html[data-theme='dark'] .llmd-frame .text-\[\#7f317f\],
 html[data-theme='dark'] .llmd-frame .text-\[\#813281\] {
-  color: #d68bd6;
+  color: #ca77ca;
 }
 html[data-theme='dark'] .llmd-frame .border-\[\#dde1e6\],
 html[data-theme='dark'] .llmd-frame .border-\[\#f2f4f8\] {
-  border-color: #393939;
+  border-color: #343a3f;
 }
-/* Dark grey glyphs/logos (#343A3F card & customer icons, #697077 partner logos)
-   are hard to see on the dark background — lighten them. Substring + case-
-   insensitive matching also catches the Figma `var(--fill-0, #...)` form. CSS
-   `fill` overrides the SVG presentation attribute. */
-html[data-theme='dark'] .llmd-frame svg [fill*='343a3f' i],
+/* Founder + card-icon SVG logos: swap the two dark greys per the design tokens
+   (#697077 -> #343a3f, #343a3f -> #697077). Substring + case-insensitive matching
+   also catches the Figma `var(--fill-0, #...)` form; CSS `fill` overrides the SVG
+   presentation attribute. */
 html[data-theme='dark'] .llmd-frame svg [fill*='697077' i] {
-  fill: #c1c7cd;
+  fill: #343a3f;
+}
+html[data-theme='dark'] .llmd-frame svg [fill*='343a3f' i] {
+  fill: #697077;
 }
 
-/* Card hover states in dark mode: the light-design hover (#DDE1E6 / #f2f4f8)
-   flashes bright and hides the text. Use dark hover surfaces instead. */
+/* Card hover states in dark mode. */
 html[data-theme='dark'] .llmd-frame div.bg-\[\#f2f4f8\].rounded-\[8px\]:hover {
   background-color: #343a3f;
 }
 html[data-theme='dark'] .llmd-frame div.bg-\[\#f2f4f8\].rounded-\[8px\]:hover > div.border-\[\#dde1e6\] {
-  border-color: #697077;
+  border-color: #343a3f;
 }
-/* Release-updates card must stay its dark surface on hover (its base rule pins
-   the light #f2f4f8 with !important). */
+/* Release-updates card keeps its own dark surface (no hover flip); its base rule
+   pins the light #f2f4f8 with !important. */
 html[data-theme='dark'] .llmd-frame div.bg-\[\#f2f4f8\].h-\[519px\],
 html[data-theme='dark'] .llmd-frame div.bg-\[\#f2f4f8\].h-\[519px\]:hover {
   background-color: #2a2a2a !important;
@@ -204,10 +214,53 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option {
   color: #c6c6c6;
 }
 html[data-theme='dark'] .llmd-frame .llmd-release-option[data-selected='true'] {
-  color: #ffffff;
+  color: #ca77ca;
 }
 html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
   background-color: #343a3f;
+}
+
+/* Release-updates commit list: each entry is a single truncated line (no wrap,
+   no horizontal scrollbar) at every breakpoint. The text ellipsizes; the PR
+   number stays intact on the right. `--llmd-stats-overhang` is unrelated. */
+.llmd-frame .llmd-commit-scroll {
+  overflow-x: hidden;
+}
+.llmd-frame .llmd-commit-entry {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+}
+.llmd-frame .llmd-commit-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.llmd-frame .llmd-commit-entry a {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Hero grey band ends at the vertical midpoint of the use-case (stat) cards so
+   the cards straddle the grey→white boundary. LandingApp measures the stat row
+   and sets `--llmd-stats-overhang` (half its height; 0 on mobile). Desktop only:
+   drop the hero's bottom padding, pull the card row down by the overhang, and
+   pad the following section's top so it clears the cards' overhanging halves. */
+.llmd-frame:not(.llmd-mobile) .llmd-hero-section {
+  padding-bottom: 0;
+}
+.llmd-frame:not(.llmd-mobile) .llmd-grid-stats {
+  margin-bottom: calc(-1 * var(--llmd-stats-overhang, 0px));
+  position: relative;
+  z-index: 1;
+}
+.llmd-frame:not(.llmd-mobile) .llmd-after-hero {
+  padding-top: calc(88px + var(--llmd-stats-overhang, 0px));
 }
 
 /* ===========================================================================
@@ -261,7 +314,11 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
-/* The two path rows are each a 2×2 grid, stacking into the requested 2×4. */
+/* The two path rows are each a 2×2 grid, stacking into the requested 2×4. The
+   wrapper between them keeps the same 16px gap as within each grid. */
+.llmd-frame.llmd-mobile .llmd-paths-stack {
+  gap: 16px;
+}
 /* Hardware row is a wide-short strip on desktop; let it grow for stacked rows. */
 .llmd-frame.llmd-mobile .llmd-grid-hardware {
   aspect-ratio: auto;
@@ -273,9 +330,14 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
 .llmd-frame.llmd-mobile .llmd-grid-hardware > * {
   margin-right: 0;
 }
+/* Use-case (stat) cards share the well-lit-path cards' box on mobile: same
+   auto-height + min-height, so both card rows look consistent. The card's inner
+   flex is justify-between (metric on top, company logo at the bottom), so the
+   logo stays pinned to the card's bottom edge. */
 .llmd-frame.llmd-mobile .llmd-grid-stats > * {
   aspect-ratio: auto;
-  min-height: 150px;
+  height: auto;
+  min-height: 168px;
 }
 /* Well-lit path cards: grow to fit the wrapped title instead of clipping. */
 .llmd-frame.llmd-mobile .llmd-grid-paths > * {
@@ -299,11 +361,25 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
   padding-top: 0;
   padding-bottom: 0;
 }
+/* "CNCF sandbox project founded by:" — centered on mobile (its row lives in a
+   flex column with items-start, so align-self centers it). */
+.llmd-frame.llmd-mobile .llmd-founded-by {
+  align-self: center;
+}
+/* Footer social icons wrap onto two lines instead of overflowing the narrow
+   social column. */
+.llmd-frame.llmd-mobile .llmd-socials {
+  flex-wrap: wrap;
+}
 
 /* --- Hero: centered, with stacked CTAs ----------------------------------- */
 .llmd-frame.llmd-mobile .llmd-hero {
   align-items: center;
   text-align: center;
+}
+/* …but the sub-headline paragraph reads better left-aligned than centered. */
+.llmd-frame.llmd-mobile .llmd-hero-subtitle {
+  text-align: left;
 }
 .llmd-frame.llmd-mobile .llmd-hero-ctas {
   flex-direction: column;
@@ -314,30 +390,18 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
 .llmd-frame.llmd-mobile .llmd-hero-ctas > .llmd-cta > div {
   width: 100%;
 }
-/* Section CTAs ("See all Well-Lit paths", "View all accelerators") centered. */
+/* All CTA buttons go full-width on mobile. Section CTAs ("See all Well-Lit
+   paths", "View all supported accelerators") stretch their inner button (the
+   .llmd-cta wrapper is display:contents, so the button div is the flex child). */
 .llmd-frame.llmd-mobile .llmd-section-cta {
   justify-content: center;
   width: 100%;
 }
+.llmd-frame.llmd-mobile .llmd-section-cta > .llmd-cta > div {
+  width: 100%;
+}
 
 /* --- Release panel ------------------------------------------------------- */
-/* Long commit lines should wrap rather than overflow the panel. The entry text
-   is `shrink-0` (kept on one line in the design); on mobile let it shrink and
-   wrap within the panel width. */
-.llmd-frame.llmd-mobile .llmd-commit-scroll .whitespace-nowrap,
-.llmd-frame.llmd-mobile .llmd-commit-scroll p {
-  white-space: normal;
-}
-.llmd-frame.llmd-mobile .llmd-commit-scroll .shrink-0 {
-  flex-shrink: 1;
-  min-width: 0;
-}
-/* …but keep the PR number (an <a>) intact rather than breaking mid-number. */
-.llmd-frame.llmd-mobile .llmd-commit-scroll a,
-.llmd-frame.llmd-mobile .llmd-commit-scroll a p {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
 /* Shrink the contributor avatars so the overlapping row fits a phone width. */
 .llmd-frame.llmd-mobile .llmd-contributors .size-\[48px\] {
   width: 36px;
