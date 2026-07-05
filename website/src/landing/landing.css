@@ -331,13 +331,23 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
   margin-right: 0;
 }
 /* Use-case (stat) cards share the well-lit-path cards' box on mobile: same
-   auto-height + min-height, so both card rows look consistent. The card's inner
-   flex is justify-between (metric on top, company logo at the bottom), so the
-   logo stays pinned to the card's bottom edge. */
+   auto-height + min-height, so both card rows look consistent. Make the card a
+   flex column and have each nested wrapper fill its parent, so the innermost
+   metric/logo flex (justify-between) spans the full card height — metric pinned
+   to the top, company logo pinned to the bottom. `flex: 1 1 auto; min-height:0`
+   lets a wrapper both grow into a grid-stretched card and shrink rather than
+   overflow the border. */
 .llmd-frame.llmd-mobile .llmd-grid-stats > * {
   aspect-ratio: auto;
   height: auto;
   min-height: 168px;
+  display: flex;
+  flex-direction: column;
+}
+.llmd-frame.llmd-mobile .llmd-grid-stats > * > div:not([aria-hidden]),
+.llmd-frame.llmd-mobile .llmd-grid-stats > * > div:not([aria-hidden]) > div {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 /* Well-lit path cards: grow to fit the wrapped title instead of clipping. */
 .llmd-frame.llmd-mobile .llmd-grid-paths > * {
