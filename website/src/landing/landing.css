@@ -170,9 +170,19 @@ html[data-theme='dark'] .llmd-frame .text-\[\#7f317f\],
 html[data-theme='dark'] .llmd-frame .text-\[\#813281\] {
   color: #ca77ca;
 }
+/* Accent borders (e.g. the outlined "Explore the performance data" button) track
+   the dark-mode accent so they match the accent text. */
+html[data-theme='dark'] .llmd-frame .border-\[\#7f317f\] {
+  border-color: #ca77ca;
+}
 html[data-theme='dark'] .llmd-frame .border-\[\#dde1e6\],
 html[data-theme='dark'] .llmd-frame .border-\[\#f2f4f8\] {
   border-color: #343a3f;
+}
+/* Release-updates contributor avatars use an inline #DDE1E6 stroke; in dark mode
+   it should be #343A3F. `border-color !important` overrides the inline border. */
+html[data-theme='dark'] .llmd-frame .llmd-contributors img {
+  border-color: #343a3f !important;
 }
 /* Founder + card-icon SVG logos: swap the two dark greys per the design tokens
    (#697077 -> #343a3f, #343a3f -> #697077). Substring + case-insensitive matching
@@ -383,12 +393,9 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
 }
 
 /* --- Hero: centered, with stacked CTAs ----------------------------------- */
+/* Hero is left-aligned on mobile (title, message, and CTAs). */
 .llmd-frame.llmd-mobile .llmd-hero {
-  align-items: center;
-  text-align: center;
-}
-/* …but the sub-headline paragraph reads better left-aligned than centered. */
-.llmd-frame.llmd-mobile .llmd-hero-subtitle {
+  align-items: flex-start;
   text-align: left;
 }
 .llmd-frame.llmd-mobile .llmd-hero-ctas {
@@ -412,6 +419,11 @@ html[data-theme='dark'] .llmd-frame .llmd-release-option:hover {
 }
 
 /* --- Release panel ------------------------------------------------------- */
+/* Hide the "Release updates" title text on mobile (the llm-d logo beside it
+   stays); the version dropdown gets the freed width. */
+.llmd-frame.llmd-mobile .llmd-release-title {
+  display: none;
+}
 /* Shrink the contributor avatars so the overlapping row fits a phone width. */
 .llmd-frame.llmd-mobile .llmd-contributors .size-\[48px\] {
   width: 36px;

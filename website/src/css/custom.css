@@ -25,7 +25,8 @@
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #c97ec9;
+  /* Dark-mode accent (per design): #CA77CA. */
+  --ifm-color-primary: #ca77ca;
   --ifm-color-primary-dark: #bf66bf;
   --ifm-color-primary-darker: #b95bb9;
   --ifm-color-primary-darkest: #a23fa2;

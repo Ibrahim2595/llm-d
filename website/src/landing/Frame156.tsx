@@ -1244,7 +1244,7 @@ function Frame16() {
   return (
     <div className="content-stretch flex items-center justify-center px-[16px] py-[10px] relative rounded-[8px] shrink-0">
       <div aria-hidden className="absolute border border-[#7f317f] border-solid inset-0 pointer-events-none rounded-[8px]" />
-      <p className="[word-break:break-word] font-['IBM_Plex_Sans',sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[#7f317f] text-[16px] whitespace-nowrap">Explore the performance data on Prism</p>
+      <p className="[word-break:break-word] font-['IBM_Plex_Sans',sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[#7f317f] text-[16px] whitespace-nowrap">Explore the performance data</p>
     </div>
   );
 }
@@ -2402,7 +2402,7 @@ function Frame89() {
         <img className="llmd-logo-light" src="/img/llm-d-logotype-and-icon.svg" alt="llm-d" />
         <img className="llmd-logo-dark" src="/img/llm-d-logotype-and-icon-dark.svg" alt="llm-d" />
       </span>
-      <div className="[word-break:break-word] font-['IBM_Plex_Sans',sans-serif] leading-[0] not-italic relative shrink-0 text-[#343a3f] text-[22px] whitespace-nowrap">
+      <div className="llmd-release-title [word-break:break-word] font-['IBM_Plex_Sans',sans-serif] leading-[0] not-italic relative shrink-0 text-[#343a3f] text-[22px] whitespace-nowrap">
         <p className="leading-[normal]">Release updates</p>
       </div>
     </div>
