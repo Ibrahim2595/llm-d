@@ -1,0 +1,299 @@
+// @ts-check
+// See https://docusaurus.io/docs/api/docusaurus-config
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { themes as prismThemes } from 'prism-react-renderer';
+import { makeDocsPreprocessor } from './scripts/lib/preprocess.mjs';
+import { loadMenuConfig, makeSidebarItemsGenerator, validateMenuConfig } from './scripts/lib/sidebar.mjs';
+
+const GITHUB_REPO = 'https://github.com/llm-d/llm-d';
+
+// Self-adjusting versioning: derive the version map from versions.json (which
+// docusaurus writes newest-first). The newest release is served at /docs and the
+// rest at /docs/<version>; the committed dev docs/ are the unreleased "dev"
+// version at /docs/dev. Reading the file lets `npm run version:cut` recreate
+// versioned_docs/ without the config hard-coding a version that may be absent.
+const siteDir = path.dirname(fileURLToPath(import.meta.url));
+const menuConfig = loadMenuConfig(path.join(siteDir, 'menu-config.json'));
+validateMenuConfig(menuConfig, path.join(siteDir, 'docs'));
+const versionsFile = path.join(siteDir, 'versions.json');
+const releasedVersions = fs.existsSync(versionsFile)
+  ? JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
+  : [];
+const LATEST_VERSION = releasedVersions[0];
+const docsVersions = LATEST_VERSION
+  ? {
+      lastVersion: LATEST_VERSION,
+      versions: {
+        // Released versions first (newest = default at /docs, older at /docs/<v>),
+        // then the unreleased dev version last — this is the version dropdown order.
+        ...Object.fromEntries(
+          releasedVersions.map((v) => [
+            v,
+            {
+              // Mark the default (newest) release, served at /docs, as "(latest)".
+              label: v === LATEST_VERSION ? `v${v} (latest)` : `v${v}`,
+              path: v === LATEST_VERSION ? '' : v,
+              badge: true,
+            },
+          ]),
+        ),
+        current: { label: 'dev', path: 'dev', banner: 'unreleased' },
+      },
+    }
+  : {};
+
+/** Docs live in ../docs and ../guides; sync-docs.mjs vendors them into docs/.
+ *  Map a synced doc back to its source file for the "Edit this page" link. */
+function docsEditUrl({ versionDocsDirPath, docPath }) {
+  // Only the current ("next") version maps cleanly back to the live source tree.
+  if (versionDocsDirPath !== 'docs') return undefined;
+  return docPath.startsWith('guides/')
+    ? `${GITHUB_REPO}/edit/main/${docPath}`
+    : `${GITHUB_REPO}/edit/main/docs/${docPath}`;
+}
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  title: 'llm-d',
+  tagline: 'Kubernetes-native, high-performance distributed LLM inference',
+  favicon: 'img/llm-d-favicon.png',
+
+  url: 'https://llm-d.ai',
+  baseUrl: '/',
+
+  organizationName: 'llm-d',
+  projectName: 'llm-d',
+
+  trailingSlash: false,
+  onBrokenLinks: 'warn',
+  onBrokenAnchors: 'warn',
+
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
+
+  markdown: {
+    // .md -> CommonMark (forgiving of the raw HTML in the vendored GitHub docs),
+    // .mdx -> MDX (blog posts, community index/events, getting-started).
+    format: 'detect',
+    mermaid: true,
+    // Render-time fixes for the pristine docs copy (links/braces/intro slug).
+    preprocessor: makeDocsPreprocessor({
+      repoRoot: path.resolve(siteDir, '..'),
+      docsDir: path.join(siteDir, 'docs'),
+    }),
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownImages: 'warn',
+    },
+  },
+
+  presets: [
+    [
+      'classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
+        docs: {
+          path: 'docs',
+          routeBasePath: 'docs',
+          sidebarPath: './sidebars.js',
+          editUrl: docsEditUrl,
+          sidebarItemsGenerator: makeSidebarItemsGenerator(menuConfig),
+          // Native versioning: the synced docs/ are the unreleased "dev" version;
+          // released versions are frozen snapshots under versioned_docs/.
+          includeCurrentVersion: true,
+          ...docsVersions,
+        },
+        blog: {
+          path: 'blog',
+          routeBasePath: 'blog',
+          showReadingTime: true,
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
+          editUrl: `${GITHUB_REPO}/edit/main/website/`,
+          feedOptions: {
+            type: ['rss', 'atom'],
+            xslt: true,
+          },
+          onInlineTags: 'warn',
+          onInlineAuthors: 'warn',
+          onUntruncatedBlogPosts: 'ignore',
+        },
+        theme: {
+          customCss: './src/css/custom.css',
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/tags/**'],
+        },
+      }),
+    ],
+  ],
+
+  plugins: [
+    // Community section as its own docs instance (mirrors docusaurus.io/community).
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'community',
+        path: 'community',
+        routeBasePath: 'community',
+        sidebarPath: './sidebarsCommunity.js',
+        // Contributing is its own header section / standalone page (no sidebar),
+        // so keep it out of the autogenerated community sidebar.
+        sidebarItemsGenerator: async ({ defaultSidebarItemsGenerator, ...args }) => {
+          const items = await defaultSidebarItemsGenerator(args);
+          return items.filter(
+            (item) => !(item.type === 'doc' && item.id === 'contribute'),
+          );
+        },
+      },
+    ],
+  ],
+
+  themes: [
+    '@docusaurus/theme-mermaid',
+    // Offline full-text search (docs + blog + community).
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      /** @type {import('@easyops-cn/docusaurus-search-local').PluginOptions} */
+      ({
+        hashed: true,
+        indexBlog: true,
+        indexPages: true,
+        docsRouteBasePath: ['/docs', '/community'],
+        highlightSearchTermsOnTargetPage: true,
+      }),
+    ],
+  ],
+
+  themeConfig:
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    ({
+      image: 'img/llm-d-social-card.jpg',
+      colorMode: {
+        respectPrefersColorScheme: true,
+      },
+      announcementBar: {
+        id: 'llm-d-0-8-0',
+        content:
+          '🎉 <b>llm-d 0.8 is here!</b> Multimodal, batch &amp; flow-control graduate to production, with broader accelerator support and initial RL. <a href="/docs/getting-started/quickstart"><b>See what\'s new →</b></a>',
+        textColor: '#ffffff',
+        isCloseable: true,
+      },
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
+      navbar: {
+        logo: {
+          alt: 'llm-d',
+          src: 'img/llm-d-logotype-and-icon.svg',
+          srcDark: 'img/llm-d-logotype-and-icon-dark.svg',
+          href: '/',
+        },
+        items: [
+          {
+            // Plain link (not a version-aware docSidebar item) so "Docs" always
+            // opens the latest release at /docs, regardless of the version the
+            // visitor last viewed (dev/0.7 are reachable via the dropdown).
+            to: '/docs',
+            position: 'left',
+            label: 'Docs',
+          },
+          { to: '/blog', label: 'Blog', position: 'left' },
+          {
+            // Standalone Contributing page (its own header section). The page
+            // hides the community left nav via `displayed_sidebar: null`.
+            to: '/community/contribute',
+            label: 'Contributing',
+            position: 'left',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'communitySidebar',
+            docsPluginId: 'community',
+            position: 'left',
+            label: 'Community',
+          },
+          {
+            type: 'docsVersionDropdown',
+            // On the left, right after Community (consistent navbar spacing).
+            position: 'left',
+            dropdownActiveClassDisabled: true,
+            // Order the dropdown releases-first (newest default at top), dev last.
+            versions: [...releasedVersions, 'current'],
+          },
+          {
+            // GitHub icon + live star count (see src/components/GithubStarsNavbarItem).
+            type: 'custom-githubStars',
+            href: GITHUB_REPO,
+            position: 'right',
+            'aria-label': 'GitHub repository',
+          },
+          {
+            href: 'https://llm-d.ai/slack',
+            position: 'right',
+            className: 'header-slack-link',
+            label: 'Join Slack',
+            'aria-label': 'llm-d Slack',
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Docs',
+            items: [
+              { label: 'Getting Started', to: '/docs' },
+              { label: 'Architecture', to: '/docs/architecture' },
+              { label: 'Well-Lit Paths', to: '/docs/well-lit-paths' },
+              { label: 'API Reference', to: '/docs/api-reference' },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              { label: 'Welcome', to: '/community' },
+              { label: 'Contributing', to: '/community/contribute' },
+              { label: 'Events', to: '/community/events' },
+              { label: 'Code of Conduct', to: '/community/code-of-conduct' },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              { label: 'Blog', to: '/blog' },
+              { label: 'GitHub', href: GITHUB_REPO },
+              { label: 'Slack', href: 'https://llm-d.slack.com' },
+              { label: 'X / Twitter', href: 'https://x.com/_llm_d_' },
+            ],
+          },
+        ],
+        logo: {
+          alt: 'Cloud Native Computing Foundation',
+          src: 'img/cncf-white.png',
+          href: 'https://cncf.io',
+          width: 130,
+        },
+        copyright: `Copyright © ${new Date().getFullYear()} llm-d Authors. Apache 2.0 License.<br/>llm-d is a Cloud Native Computing Foundation Sandbox project.`,
+      },
+      prism: {
+        theme: prismThemes.oneLight,
+        darkTheme: prismThemes.oneDark,
+        additionalLanguages: ['bash', 'yaml', 'json', 'toml', 'promql'],
+      },
+      mermaid: {
+        theme: { light: 'neutral', dark: 'dark' },
+      },
+    }),
+};
+
+export default config;
