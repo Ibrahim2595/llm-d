@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { themes as prismThemes } from 'prism-react-renderer';
 import { makeDocsPreprocessor } from './scripts/lib/preprocess.mjs';
+import { loadMenuConfig, makeSidebarItemsGenerator, validateMenuConfig } from './scripts/lib/sidebar.mjs';
 
 const GITHUB_REPO = 'https://github.com/llm-d/llm-d';
 
@@ -14,6 +15,8 @@ const GITHUB_REPO = 'https://github.com/llm-d/llm-d';
 // version at /docs/dev. Reading the file lets `npm run version:cut` recreate
 // versioned_docs/ without the config hard-coding a version that may be absent.
 const siteDir = path.dirname(fileURLToPath(import.meta.url));
+const menuConfig = loadMenuConfig(path.join(siteDir, 'menu-config.json'));
+validateMenuConfig(menuConfig, path.join(siteDir, 'docs'));
 const versionsFile = path.join(siteDir, 'versions.json');
 const releasedVersions = fs.existsSync(versionsFile)
   ? JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
@@ -98,6 +101,7 @@ const config = {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
           editUrl: docsEditUrl,
+          sidebarItemsGenerator: makeSidebarItemsGenerator(menuConfig),
           // Native versioning: the synced docs/ are the unreleased "dev" version;
           // released versions are frozen snapshots under versioned_docs/.
           includeCurrentVersion: true,

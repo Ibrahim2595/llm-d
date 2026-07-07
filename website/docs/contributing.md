@@ -1,12 +1,11 @@
 ---
 title: Contributing to the Docs
 description: How to add and edit llm-d documentation pages.
-sidebar_position: 99
 ---
 
 # Contributing to the Docs
 
-The docs are plain Markdown files under `website/docs/`. Add a file, and it shows up on the site — the sidebar builds itself from the folder structure, so there's no config to edit and no list to register your page in.
+The docs are plain Markdown files under `website/docs/`. Add a file, and it shows up on the site — the sidebar builds itself from the folder structure. To change section labels, order, or collapse state, edit `website/menu-config.json` (not frontmatter or per-folder config files).
 
 This page covers everything you need to write or change a doc.
 
@@ -30,38 +29,54 @@ Most pages need none — the H1 is the title and the folder decides placement. A
 
 | Field | Use it to… |
 | --- | --- |
-| `sidebar_position` | Order this page within its folder (lower = higher up). |
-| `sidebar_label` | Show a shorter label in the sidebar than the H1. |
 | `title` | Set the browser/tab title if it should differ from the H1. |
 | `description` | Write the meta description used for search and link previews. |
 | `slug` | Change the page's URL path. |
 
+Do **not** use `sidebar_position` or `sidebar_label` in doc frontmatter — sidebar order and labels for pages are configured in `menu-config.json` (see below).
+
 ```md
 ---
-sidebar_position: 2
 description: Deploy an optimized baseline on any accelerator.
 ---
 
 # Optimized baseline
 ```
 
-## Group pages into a section
+## Sidebar layout (`menu-config.json`)
 
-A folder is a sidebar section. Drop a `_category_.json` in it to control how that section looks:
+All sidebar section labels, order, collapse state, and per-page ordering live in one file: [`website/menu-config.json`](../menu-config.json).
 
 ```json
-{ "label": "Getting Started", "position": 1, "collapsed": false }
+{
+  "categories": {
+    "getting-started": {
+      "label": "Getting Started",
+      "position": 1,
+      "collapsed": false
+    },
+    "well-lit-paths/foundations": {
+      "label": "Foundations",
+      "position": 1
+    }
+  },
+  "pages": {
+    "getting-started/quickstart": { "position": 1 },
+    "contributing": { "position": 99, "label": "Contributing" }
+  }
+}
 ```
 
-- `label` — the section heading in the sidebar.
-- `position` — where the section sits among its siblings.
-- `collapsed` — `false` to show the section expanded by default, `true` to keep it closed.
+- **`categories`** — keyed by folder path under `docs/` (use slashes for nested folders, e.g. `infrastructure/providers/aks`). Controls section headings and order among siblings.
+- **`pages`** — keyed by doc id (path without extension). Controls order and optional sidebar label within a folder.
 
-For a section landing page (what opens when someone clicks the section itself), add an `index.md` to the folder.
+New docs appear automatically without a `pages` entry; they sort alphabetically among siblings with no position. Add a `pages` entry when you need explicit order or a custom sidebar label.
+
+For a section landing page (what opens when someone clicks the section itself), add an `index.md` or `index.mdx` to the folder.
 
 ## Order
 
-Sections are ordered by their `_category_.json` `position`; pages within a section by their `sidebar_position`. Anything without a number falls back to alphabetical, so set positions when order matters.
+Sections are ordered by `categories.<path>.position`; pages within a section by `pages.<id>.position`. Anything without a position falls back to alphabetical order.
 
 ## Images
 

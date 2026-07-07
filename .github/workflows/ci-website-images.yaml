@@ -1,0 +1,35 @@
+name: Website image verification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - '.github/workflows/ci-website-images.yaml'
+      - '.github/actions/setup-llmd-site/**'
+
+concurrency:
+  group: ci-website-images-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image-verification:
+    name: Verify website images
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-llmd-site
+        with:
+          npm-command: npm ci
+
+      - name: Build site
+        run: make build
+
+      - name: Verify images (llmd-site check images)
+        run: ./bin/llmd-site check images

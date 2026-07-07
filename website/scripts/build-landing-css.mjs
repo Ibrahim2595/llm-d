@@ -27,7 +27,7 @@ const output = path.join(webDir, 'src/landing/landing.tailwind.css');
 const raw = path.join(os.tmpdir(), 'llmd-landing.raw.css');
 
 // 1. Compile Tailwind (unminified so the scoping pass can parse it).
-execFileSync('npx', ['@tailwindcss/cli', '-i', input, '-o', raw], {
+execFileSync('npx', ['tailwindcss', '-i', input, '-o', raw], {
   cwd: webDir,
   stdio: 'inherit',
 });

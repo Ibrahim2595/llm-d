@@ -4,6 +4,11 @@
 # Production build output
 /build
 
+# llmd-site CLI
+/bin
+broken-links-report.md
+link-checker.config.json
+
 # Generated Docusaurus files
 .docusaurus
 .cache-loader

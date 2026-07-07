@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Quickstart
 
 This guide provides a simplified, end-to-end walkthrough for deploying an **Optimized Baseline** configuration using llm-d. This setup reduces tail latency and increases throughput through load-aware and prefix-cache aware balancing.
